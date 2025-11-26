@@ -37,11 +37,19 @@ def get_shell_profile():
     if os_type == "windows":
         try:
             result = subprocess.run(
-                ["powershell", "-Command", "echo $PROFILE"],
-                capture_output=True, text=True, check=True
+                ["powershell", "-NoProfile", "-Command", "$PROFILE"],
+                capture_output=True, text=True, check=True, timeout=5
             )
             path = result.stdout.strip()
+            if not path:
+                return None
             return Path(path)
+        except subprocess.TimeoutExpired:
+            # Powershell hung or took too long
+            return None
+        except subprocess.CalledProcessError:
+            # Command failed
+            return None
         except Exception:
             return None
     else:
