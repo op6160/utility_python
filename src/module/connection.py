@@ -1,5 +1,5 @@
 import requests # type: ignore
-from printer import log_msg as log
+from src.module.printer import log_msg as log
 
 class headers(dict):
     """

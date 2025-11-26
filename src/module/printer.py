@@ -1,7 +1,7 @@
 import sys
 import os
 from pathlib import Path
-from time_lib import detail
+from src.module.time_lib import detail
 
 class MessageFormatter:
     """"A callable class to format and print messages with optional file logging.
