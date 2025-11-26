@@ -1,6 +1,5 @@
 import os
 import platform
-import sys
 import subprocess
 from pathlib import Path
 
@@ -29,7 +28,7 @@ def get_shell_type():
     elif "powershell" in shell.lower():
         return "powershell"
     else:
-        return "unknown"
+        return None
 
 def get_shell_profile():
     """Get the shell profile path based on OS and shell type.
