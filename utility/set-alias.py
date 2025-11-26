@@ -1,8 +1,12 @@
-import os
-import subprocess
-import platform
-from pathlib import Path
+"""
+Utility to set custom command aliases/functions in the user's shell profile automatically.
+Supported OS: Windows(PowerShell), Linux, Mac (bash/zsh)
+
+Raises:
+    RuntimeError: If the shell profile path cannot be determined.
+"""
 from src.utils.printer import log_msg
+from src.utils.os_lib import get_os_type, get_shell_profile
 
 # ---------------------------------------------------------
 # User-defined commands to set as aliases/functions
@@ -14,27 +18,6 @@ command_set = {
     # venv activate set placeholder set to be replaced later based on OS
     "venv-on": "activate_placeholder", 
 }
-
-def get_windows_profile():
-    """Get PowerShell profile path on Windows."""
-    try:
-        result = subprocess.run(
-            ["powershell", "-Command", "echo $PROFILE"],
-            capture_output=True, text=True, check=True
-        )
-        path = result.stdout.strip()
-        return Path(path)
-    except Exception:
-        return None
-
-def get_linux_profile():
-    """Get .bashrc or .zshrc path on Linux/Mac."""
-    shell = os.environ.get("SHELL", "")
-    home = Path.home()
-    if "zsh" in shell:
-        return home / ".zshrc"
-    else:
-        return home / ".bashrc"
 
 def format_command(os_type, alias_name, command_str):
     # venv activater set
@@ -53,31 +36,11 @@ def format_command(os_type, alias_name, command_str):
         return f"alias {alias_name}='{command_str}'"
 
 def main():
-    current_os = platform.system() # 'Windows', 'Linux', 'Darwin'(Mac)
-    
-    target_profile = None
-    os_type = ""
-
-    # OS & shell profile detection
-    if current_os == "Windows":
-        os_type = "windows"
-        target_profile = get_windows_profile()
-        log_msg("Detected System: Windows (PowerShell)")
-    
-    elif current_os == "Linux" or current_os == "Darwin":
-        os_type = "linux"
-        target_profile = get_linux_profile()
-        log_msg(f"Detected System: {current_os}")
-        
-    else:
-        log_msg(f"Unsupported OS: {current_os}")
-        return
-
+    os_type = get_os_type()
+    target_profile = get_shell_profile()
     if not target_profile:
-        log_msg("Could not find profile path.")
-        return
-
-    log_msg(f"Shell Profile Path: {target_profile}")
+        raise RuntimeError("Could not determine shell profile path.")
+    log_msg(f"Detected System: {os_type}")
 
     # Generate content to write
     lines_to_write = []
