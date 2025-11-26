@@ -1,7 +1,7 @@
 import sys
 import os
 from pathlib import Path
-from time_lib import TimeAlias
+from time_lib import detail
 
 class MessageFormatter:
     """"A callable class to format and print messages with optional file logging.
@@ -125,11 +125,11 @@ def make_print_formatter(header='', footer='', file_path=None):
 _frame = sys._getframe()
 python_filename = os.path.basename(_frame.f_code.co_filename)
 python_codeline = _frame.f_lineno
-time = TimeAlias()
+detailtime = detail
 
 # usage examples
 # basic logger(print only)
-log_msg = MessageFormatter(header=f"[{time.detail}] ")
+log_msg = MessageFormatter(header=f"[{detailtime}] ")
 
 # debug logger (with file saving)
 debug = log_msg.override(
