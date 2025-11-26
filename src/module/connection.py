@@ -54,8 +54,9 @@ def connection_test(url:str, headers:headers):
         return False
     
 if __name__ == "__main__":
-    from test.test_config import BASEURL
-    TARGET_URL = BASEURL
+    # from test.test_config import BASEURL
+    # TARGET_URL = BASEURL
+    TARGET_URL = "https://www.google.com"
 
     headers = headers()
     connection_test(TARGET_URL, headers)
