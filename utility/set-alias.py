@@ -5,8 +5,8 @@ Supported OS: Windows(PowerShell), Linux, Mac (bash/zsh)
 Raises:
     RuntimeError: If the shell profile path cannot be determined.
 """
-from src.utils.printer import log_msg
-from src.utils.os_lib import get_os_type, get_shell_profile
+from src.module.printer import log_msg
+from src.module.os_lib import get_os_type, get_shell_profile
 
 # ---------------------------------------------------------
 # User-defined commands to set as aliases/functions

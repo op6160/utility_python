@@ -1,5 +1,5 @@
-from . import utils
+from . import module
 
 __all__ = [
-    "utils",
+    "module",
 ]
