@@ -33,8 +33,8 @@ class TimeAlias:
         """
         Set the message format based on the current settings.
         """
-        date_msg = f"{self.MAP["year"]}{self.date_distributer}{self.MAP["month"]}{self.date_distributer}{self.MAP["day"]}"
-        times_msg = f"{self.MAP["hour"]}{self.times_distributer}{self.MAP["minute"]}{self.times_distributer}{self.MAP["second"]}"
+        date_msg = f"{self.MAP['year']}{self.date_distributer}{self.MAP['month']}{self.date_distributer}{self.MAP['day']}"
+        times_msg = f"{self.MAP['hour']}{self.times_distributer}{self.MAP['minute']}{self.times_distributer}{self.MAP['second']}"
         msg = ""
         if self._date:
             msg += date_msg
