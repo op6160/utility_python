@@ -12,8 +12,8 @@ Raises:
     RuntimeError: If the shell profile path cannot be determined.
 """
 import use_modules  # ensure module path is set     # type: ignore # noqa: F401 
-from src.module.printer import log_msg
-from src.module.os_lib import get_os_type, get_shell_profile
+from src.logger_lib import log_msg
+from src.os_lib import get_os_type, get_shell_profile
 # Import user-defined command set 
 from set_alias_config import command_set, placeholder_formatting
 

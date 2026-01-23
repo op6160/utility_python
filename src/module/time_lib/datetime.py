@@ -3,6 +3,10 @@ from datetime import datetime
 class TimeAlias:
     """
     A class to generate formatted current date and time strings.
+
+    Args:
+        date (bool): Whether to include date in the formatted string. Default is True.
+        time (bool): Whether to include time in the formatted string. Default is True.
     """
     MAP = { "year":   "%Y",
             "month":  "%m",
@@ -80,21 +84,3 @@ class TimeAlias:
         self.date_times_distributer = distributer
         self.set_msg()
         return
-
-# usage example
-__star = TimeAlias()
-__star.date_times_dist = "*"
-__star.date_dist = "*"
-__star.times_dist = "*"
-
-# basic usecase
-detail = TimeAlias()
-date = TimeAlias(True, False)
-times = TimeAlias(False, True)
-
-if __name__ == "__main__":
-    print(f"__star: {__star}")
-    
-    print(f"detail: {detail}")
-    print(f"date: {date}")
-    print(f"times: {times}")

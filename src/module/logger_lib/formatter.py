@@ -1,7 +1,4 @@
-import sys
-import os
 from pathlib import Path
-from src.module.time_lib import detail
 
 class MessageFormatter:
     """"A callable class to format and print messages with optional file logging.
@@ -103,8 +100,6 @@ class MessageFormatter:
     def get(self) -> dict:
         return {"header": self.header, "footer": self.footer, "file_path": self.file_path}
 
-MSGFormatter = MessageFormatter
-
 def make_print_formatter(header='', footer='', file_path=None):
     header = str(header)
     footer = str(footer)
@@ -121,27 +116,3 @@ def make_print_formatter(header='', footer='', file_path=None):
                 pass # silently ignore file write errors
 
     return printer
-
-_frame = sys._getframe()
-python_filename = os.path.basename(_frame.f_code.co_filename)
-python_codeline = _frame.f_lineno
-detailtime = detail
-
-# usage examples
-# basic logger(print only)
-log_msg = MessageFormatter(header=f"[{detailtime}] ")
-
-# debug logger (with file saving)
-debug = log_msg.override(
-    header="[DEBUG] ", 
-    file_path="logs/debug.log"
-)
-# function usage example
-warning = make_print_formatter(
-    header=f"[{python_filename}: {python_codeline}lines] Warning:", 
-)
-
-if __name__ == "__main__":    
-    log_msg("print only user log.")
-    debug("print and save debug.log file.")
-    warning("print only warning message.")

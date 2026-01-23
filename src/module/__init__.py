@@ -1,13 +1,17 @@
-from . import connection
-from . import printer
+from . import browser_lib
+from . import logger_lib
 from . import time_lib
 from . import os_lib
-from . import browser
+from . import text_lib
+from . import py_lib
+# from . import browser
 
 __all__ = [
-    "connection",
-    "printer",
+    "browser_lib",
+    "logger_lib",
     "time_lib",
     "os_lib",
-    "browser",
+    "text_lib",
+    "py_lib",
+    # "browser",
 ]

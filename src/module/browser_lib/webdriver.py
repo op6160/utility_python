@@ -14,9 +14,11 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
 ]
-
-
-def get_html_content(url: str, load_time: int = 3) -> str:
+# before
+# src.module.brwser.get_html_content -> driver.page_source
+# after
+# src.module.browser_lib.webdriver.get_driver_content -> driver
+def get_driver_content(url: str, load_time: int = 3) -> str:
     """
     Execute chrome browser (with auto install) and retrieve html content.
     """
