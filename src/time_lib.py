@@ -3,7 +3,7 @@ Time Formatting Library
 
 Provides the TimeAlias class to easily generate current date and time strings in desired formats.
 """
-from .module.time_lib.datetime import TimeAlias
+from .core.time_lib.datetime import TimeAlias
 
 __all__ = ["TimeAlias"]
 

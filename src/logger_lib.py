@@ -10,7 +10,7 @@ Available Objects:
 """
 import sys
 import os
-from .module.logger_lib.formatter import MessageFormatter, make_print_formatter
+from .core.logger_lib.formatter import MessageFormatter, make_print_formatter
 from .time_lib import detail as __detailtime
 from .py_lib import get_python_filename as __get_python_filename
 from .py_lib import get_python_codeline as __get_python_codeline

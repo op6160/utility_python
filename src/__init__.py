@@ -1,5 +1,5 @@
-from . import module
+from . import core
 
 __all__ = [
-    "module",
+    "core",
 ]

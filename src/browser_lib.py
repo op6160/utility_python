@@ -4,9 +4,9 @@ Browser Automation Library
 Provides Selenium-based web browser automation and HTML content retrieval functions.
 Uses a driver with bot detection evasion options applied.
 """
-from .module.browser_lib.webdriver import get_driver_content
-from .module.browser_lib.headers import headers
-from .module.browser_lib.connection import connection_test
+from .core.browser_lib.webdriver import get_driver_content
+from .core.browser_lib.headers import headers
+from .core.browser_lib.connection import connection_test
 
 __all__ = [
     "get_html_content",

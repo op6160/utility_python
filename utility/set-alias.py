@@ -6,7 +6,7 @@ If you want delete previously added commands, remove the profile file or the sec
 # --- [Auto Generated Commands Start] ---
 # --- [Auto Generated Commands End] ---
 in the shell profile file. e.g., ~/.bashrc, ~/.zshrc, $PROFILE (PowerShell).
-You can get profile file pathes using src.module.os_lib.get_shell_profile()
+# You can get profile file pathes using src.os_lib.get_shell_profile()
 
 Raises:
     RuntimeError: If the shell profile path cannot be determined.
