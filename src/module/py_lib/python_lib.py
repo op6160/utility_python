@@ -1,10 +1,14 @@
 import sys
 import os
 
-_frame = sys._getframe()
-
 def get_python_filename():
-    return os.path.basename(_frame.f_code.co_filename)
+    try:
+        return os.path.basename(sys._getframe(1).f_code.co_filename)
+    except (ValueError, AttributeError):
+        return "unknown"
 
 def get_python_codeline():
-    return _frame.f_lineno
+    try:
+        return sys._getframe(1).f_lineno
+    except (ValueError, AttributeError):
+        return 0
