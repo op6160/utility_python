@@ -4,6 +4,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 import time
 import random
+from typing import Callable, Any
 
 USER_AGENTS = [
     # 모바일 에이전트
@@ -14,14 +15,8 @@ USER_AGENTS = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36"
 ]
-# before
-# src.module.brwser.get_html_content -> driver.page_source
-# after
-# src.module.browser_lib.webdriver.get_driver_content -> driver
-def get_driver_content(url: str, load_time: int = 3) -> str:
-    """
-    Execute chrome browser (with auto install) and retrieve html content.
-    """
+
+def _create_driver_options() -> Options:
     options = Options()
 
     # set headless
@@ -38,14 +33,15 @@ def get_driver_content(url: str, load_time: int = 3) -> str:
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('useAutomationExtension', False)
 
-
     # Add random user agent
     selected_agent = random.choice(USER_AGENTS)
     options.add_argument(f"user-agent={selected_agent}")
+    return options
 
+def _run_browser_task(url: str, load_time: int, callback: Callable[[webdriver.Chrome], Any]) -> Any:
+    options = _create_driver_options()
     wait_time = random.uniform(float(load_time) * 1.1, float(load_time) * 2.0)
 
-    # 드라이버 실행 (여기서 딱 한 번만 실행)
     service = Service(ChromeDriverManager().install())
     with webdriver.Chrome(service=service, options=options) as driver:
         driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
@@ -59,4 +55,20 @@ def get_driver_content(url: str, load_time: int = 3) -> str:
         driver.get(url)
         time.sleep(wait_time)
         
-        return driver.page_source
+        return callback(driver)
+
+def get_driver_content(url: str, load_time: int = 3) -> str:
+    """
+    Execute chrome browser (with auto install) and retrieve html content.
+    """
+    return _run_browser_task(url, load_time, lambda driver: driver.page_source)
+
+def get_driver_mhtml(url: str, load_time: int = 3) -> str:
+    """
+    Execute chrome browser and retrieve mhtml content using CDP.
+    """
+    def _get_mhtml(driver):
+        res = driver.execute_cdp_cmd("Page.captureSnapshot", {"format": "mhtml"})
+        return res['data']
+    
+    return _run_browser_task(url, load_time, _get_mhtml)
