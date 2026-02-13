@@ -1,6 +1,8 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+
 from webdriver_manager.chrome import ChromeDriverManager
+
 from selenium.webdriver.chrome.options import Options
 import time
 import random
@@ -41,9 +43,23 @@ def _create_driver_options() -> Options:
 def _run_browser_task(url: str, load_time: int, callback: Callable[[webdriver.Chrome], Any]) -> Any:
     options = _create_driver_options()
     wait_time = random.uniform(float(load_time) * 1.1, float(load_time) * 2.0)
+    
+    driver = None
+    try:
+        # x86_64 server webdriver-manager
+        service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=service, options=options)
+    except OSError as e:
+        # ARM64 server webdriver-manager
+        if e.errno == 8:
+            fallback_service = Service("/usr/bin/chromedriver")
+            driver = webdriver.Chrome(service=fallback_service, options=options)
+        else:
+            raise e
+    except Exception as e:
+        raise e
 
-    service = Service(ChromeDriverManager().install())
-    with webdriver.Chrome(service=service, options=options) as driver:
+    with driver:
         driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {
             "source": """
                 Object.defineProperty(navigator, 'webdriver', {
@@ -56,6 +72,7 @@ def _run_browser_task(url: str, load_time: int, callback: Callable[[webdriver.Ch
         time.sleep(wait_time)
         
         return callback(driver)
+
 
 def get_driver_content(url: str, load_time: int = 3) -> str:
     """
